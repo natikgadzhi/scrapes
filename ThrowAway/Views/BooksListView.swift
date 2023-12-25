@@ -17,12 +17,21 @@ struct BooksListView: View {
     var body: some View {
         NavigationSplitView {
             List(
-                viewModel.books.filter { $0.title.lowercased().contains(self.searchText.lowercased()) || self.searchText.isEmpty },
+                viewModel.books.filter {
+                    $0.title.lowercased().contains(self.searchText.lowercased()) || self.searchText.isEmpty
+                },
                 id: \.self, selection: $selection
             ) { book in
+
+                // TODO: Extract into BooksListItem
                 NavigationLink(value: book) {
-                    Text(book.title)
-                        
+                    VStack(alignment: .leading) {
+                        Text(book.title)
+                        Text(book.author)
+                            .font(.caption)
+                    }
+                    .padding(.vertical, 4)
+
                 }
             }
             .listStyle(.sidebar)
@@ -33,11 +42,15 @@ struct BooksListView: View {
             } else {
                 Text("Select a book")
                     .foregroundStyle(.secondary)
+
+                if viewModel.isLoading {
+                    LoadingView()
+                }
             }
         }
     }
 }
 
 #Preview {
-    BooksListView(viewModel: ViewModel.mock)
+    BooksListView(viewModel: ViewModel.mockViewModel)
 }

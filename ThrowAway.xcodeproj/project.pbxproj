@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28392AFD2B392B4900833F1A /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28392AFC2B392B4900833F1A /* ErrorView.swift */; };
+		28392AFF2B3930C100833F1A /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28392AFE2B3930C100833F1A /* LoadingView.swift */; };
 		28E5692E2B37624F00FDA704 /* ThrowAwayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5692D2B37624F00FDA704 /* ThrowAwayApp.swift */; };
 		28E569302B37624F00FDA704 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5692F2B37624F00FDA704 /* ContentView.swift */; };
 		28E569342B37625000FDA704 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28E569332B37625000FDA704 /* Assets.xcassets */; };
@@ -57,6 +59,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		28392AFC2B392B4900833F1A /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		28392AFE2B3930C100833F1A /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		28E5692A2B37624F00FDA704 /* ThrowAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThrowAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28E5692D2B37624F00FDA704 /* ThrowAwayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowAwayApp.swift; sourceTree = "<group>"; };
 		28E5692F2B37624F00FDA704 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -105,6 +109,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28392B002B39329C00833F1A /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				28392AFE2B3930C100833F1A /* LoadingView.swift */,
+				28392AFC2B392B4900833F1A /* ErrorView.swift */,
+				28E5692F2B37624F00FDA704 /* ContentView.swift */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
 		28E569212B37624F00FDA704 = {
 			isa = PBXGroup;
 			children = (
@@ -178,7 +192,7 @@
 		28E5696F2B38F25100FDA704 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				28E5692F2B37624F00FDA704 /* ContentView.swift */,
+				28392B002B39329C00833F1A /* Layout */,
 				28E5695F2B37DEF000FDA704 /* WebView.swift */,
 				28E5697C2B38F8E800FDA704 /* BooksListView.swift */,
 				28E569802B38FF6400FDA704 /* BookDetailsView.swift */,
@@ -325,6 +339,8 @@
 			files = (
 				28E569792B38F2DD00FDA704 /* KindleAPI.swift in Sources */,
 				28E569812B38FF6400FDA704 /* BookDetailsView.swift in Sources */,
+				28392AFF2B3930C100833F1A /* LoadingView.swift in Sources */,
+				28392AFD2B392B4900833F1A /* ErrorView.swift in Sources */,
 				28E569712B38F27700FDA704 /* ViewModel.swift in Sources */,
 				28E5696C2B38F1B100FDA704 /* Models.swift in Sources */,
 				28E5697D2B38F8E800FDA704 /* BooksListView.swift in Sources */,

@@ -20,9 +20,8 @@ import SwiftUI
     var books: [Book]
     
     public init() {
-        
         self.books = [Book]()
-        
+
         self.kindleAPI = KindleAPI()
         self.kindleAPI.delegate = self
     }
@@ -30,6 +29,10 @@ import SwiftUI
     func onSuccessfulAuth() {
         self.isAuthenticated = true
         self.isShowingAuth = false
+
+        DispatchQueue.main.async {
+            self.prefetchBooks()
+        }
     }
     
     func prefetchBooks() {
@@ -48,9 +51,17 @@ import SwiftUI
 }
 
 extension ViewModel {
-    static var mock: ViewModel {
+    static var mockViewModel: ViewModel {
         let vm = ViewModel()
         vm.books = Book.mockBooks
+        return vm
+    }
+
+    static var mockLoadingViewModel: ViewModel {
+        let vm = ViewModel()
+        vm.books = []
+        vm.isLoading = true
+        vm.isAuthenticated = true
         return vm
     }
 }

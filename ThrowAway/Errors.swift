@@ -7,13 +7,14 @@
 
 import Foundation
 
-enum KindleError: Error {
+enum KindleError: String, Error {
+    
     /// No cookies are set on the Kindle API Client
-    case noCookies
+    case noCookies = "Couldn't authenticate the request to Kindle"
     
     /// Couldn't parse HTTP response into a string
-    case badHTTPResponse
+    case badHTTPResponse = "Kindle Cloud Reader error"
     
     /// Couldn't parse Books from a response
-    case errorParsingBooks
+    case errorParsingBooks = "Couldn't parse the books from Kindle markup"
 }
