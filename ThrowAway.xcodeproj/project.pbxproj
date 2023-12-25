@@ -9,12 +9,34 @@
 /* Begin PBXBuildFile section */
 		28E5692E2B37624F00FDA704 /* ThrowAwayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5692D2B37624F00FDA704 /* ThrowAwayApp.swift */; };
 		28E569302B37624F00FDA704 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5692F2B37624F00FDA704 /* ContentView.swift */; };
-		28E569322B37624F00FDA704 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569312B37624F00FDA704 /* Item.swift */; };
 		28E569342B37625000FDA704 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28E569332B37625000FDA704 /* Assets.xcassets */; };
 		28E569382B37625000FDA704 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28E569372B37625000FDA704 /* Preview Assets.xcassets */; };
 		28E569432B37625100FDA704 /* ThrowAwayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569422B37625100FDA704 /* ThrowAwayTests.swift */; };
 		28E5694D2B37625100FDA704 /* ThrowAwayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5694C2B37625100FDA704 /* ThrowAwayUITests.swift */; };
 		28E5694F2B37625100FDA704 /* ThrowAwayUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5694E2B37625100FDA704 /* ThrowAwayUITestsLaunchTests.swift */; };
+		28E569602B37DEF000FDA704 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5695F2B37DEF000FDA704 /* WebView.swift */; };
+		28E569692B37FD8700FDA704 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 28E569682B37FD8700FDA704 /* SwiftSoup */; };
+		28E5696C2B38F1B100FDA704 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5696B2B38F1B100FDA704 /* Models.swift */; };
+		28E5696D2B38F1B100FDA704 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5696B2B38F1B100FDA704 /* Models.swift */; };
+		28E5696E2B38F1B100FDA704 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5696B2B38F1B100FDA704 /* Models.swift */; };
+		28E569712B38F27700FDA704 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569702B38F27700FDA704 /* ViewModel.swift */; };
+		28E569722B38F27700FDA704 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569702B38F27700FDA704 /* ViewModel.swift */; };
+		28E569732B38F27700FDA704 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569702B38F27700FDA704 /* ViewModel.swift */; };
+		28E569752B38F2B300FDA704 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569742B38F2B300FDA704 /* Errors.swift */; };
+		28E569762B38F2B300FDA704 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569742B38F2B300FDA704 /* Errors.swift */; };
+		28E569772B38F2B300FDA704 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569742B38F2B300FDA704 /* Errors.swift */; };
+		28E569792B38F2DD00FDA704 /* KindleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569782B38F2DD00FDA704 /* KindleAPI.swift */; };
+		28E5697A2B38F2DD00FDA704 /* KindleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569782B38F2DD00FDA704 /* KindleAPI.swift */; };
+		28E5697B2B38F2DD00FDA704 /* KindleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569782B38F2DD00FDA704 /* KindleAPI.swift */; };
+		28E5697D2B38F8E800FDA704 /* BooksListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5697C2B38F8E800FDA704 /* BooksListView.swift */; };
+		28E5697E2B38F8E800FDA704 /* BooksListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5697C2B38F8E800FDA704 /* BooksListView.swift */; };
+		28E5697F2B38F8E800FDA704 /* BooksListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E5697C2B38F8E800FDA704 /* BooksListView.swift */; };
+		28E569812B38FF6400FDA704 /* BookDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569802B38FF6400FDA704 /* BookDetailsView.swift */; };
+		28E569822B38FF6400FDA704 /* BookDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569802B38FF6400FDA704 /* BookDetailsView.swift */; };
+		28E569832B38FF6400FDA704 /* BookDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569802B38FF6400FDA704 /* BookDetailsView.swift */; };
+		28E569852B39076500FDA704 /* UnauthenticatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569842B39076500FDA704 /* UnauthenticatedView.swift */; };
+		28E569862B39076500FDA704 /* UnauthenticatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569842B39076500FDA704 /* UnauthenticatedView.swift */; };
+		28E569872B39076500FDA704 /* UnauthenticatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E569842B39076500FDA704 /* UnauthenticatedView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +60,6 @@
 		28E5692A2B37624F00FDA704 /* ThrowAway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThrowAway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28E5692D2B37624F00FDA704 /* ThrowAwayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowAwayApp.swift; sourceTree = "<group>"; };
 		28E5692F2B37624F00FDA704 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		28E569312B37624F00FDA704 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		28E569332B37625000FDA704 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28E569352B37625000FDA704 /* ThrowAway.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ThrowAway.entitlements; sourceTree = "<group>"; };
 		28E569372B37625000FDA704 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -48,6 +69,14 @@
 		28E569482B37625100FDA704 /* ThrowAwayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThrowAwayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28E5694C2B37625100FDA704 /* ThrowAwayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowAwayUITests.swift; sourceTree = "<group>"; };
 		28E5694E2B37625100FDA704 /* ThrowAwayUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowAwayUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		28E5695F2B37DEF000FDA704 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		28E5696B2B38F1B100FDA704 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		28E569702B38F27700FDA704 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		28E569742B38F2B300FDA704 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		28E569782B38F2DD00FDA704 /* KindleAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KindleAPI.swift; sourceTree = "<group>"; };
+		28E5697C2B38F8E800FDA704 /* BooksListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksListView.swift; sourceTree = "<group>"; };
+		28E569802B38FF6400FDA704 /* BookDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailsView.swift; sourceTree = "<group>"; };
+		28E569842B39076500FDA704 /* UnauthenticatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnauthenticatedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28E569692B37FD8700FDA704 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,9 +128,12 @@
 		28E5692C2B37624F00FDA704 /* ThrowAway */ = {
 			isa = PBXGroup;
 			children = (
+				28E569702B38F27700FDA704 /* ViewModel.swift */,
 				28E5692D2B37624F00FDA704 /* ThrowAwayApp.swift */,
-				28E5692F2B37624F00FDA704 /* ContentView.swift */,
-				28E569312B37624F00FDA704 /* Item.swift */,
+				28E569742B38F2B300FDA704 /* Errors.swift */,
+				28E569782B38F2DD00FDA704 /* KindleAPI.swift */,
+				28E5696F2B38F25100FDA704 /* Views */,
+				28E5696A2B38F19F00FDA704 /* Models */,
 				28E569332B37625000FDA704 /* Assets.xcassets */,
 				28E569352B37625000FDA704 /* ThrowAway.entitlements */,
 				28E569392B37625000FDA704 /* Info.plist */,
@@ -134,6 +167,26 @@
 			path = ThrowAwayUITests;
 			sourceTree = "<group>";
 		};
+		28E5696A2B38F19F00FDA704 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				28E5696B2B38F1B100FDA704 /* Models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		28E5696F2B38F25100FDA704 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				28E5692F2B37624F00FDA704 /* ContentView.swift */,
+				28E5695F2B37DEF000FDA704 /* WebView.swift */,
+				28E5697C2B38F8E800FDA704 /* BooksListView.swift */,
+				28E569802B38FF6400FDA704 /* BookDetailsView.swift */,
+				28E569842B39076500FDA704 /* UnauthenticatedView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -150,6 +203,9 @@
 			dependencies = (
 			);
 			name = ThrowAway;
+			packageProductDependencies = (
+				28E569682B37FD8700FDA704 /* SwiftSoup */,
+			);
 			productName = ThrowAway;
 			productReference = 28E5692A2B37624F00FDA704 /* ThrowAway.app */;
 			productType = "com.apple.product-type.application";
@@ -222,6 +278,9 @@
 				Base,
 			);
 			mainGroup = 28E569212B37624F00FDA704;
+			packageReferences = (
+				28E569672B37FD8700FDA704 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+			);
 			productRefGroup = 28E5692B2B37624F00FDA704 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -264,8 +323,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28E569792B38F2DD00FDA704 /* KindleAPI.swift in Sources */,
+				28E569812B38FF6400FDA704 /* BookDetailsView.swift in Sources */,
+				28E569712B38F27700FDA704 /* ViewModel.swift in Sources */,
+				28E5696C2B38F1B100FDA704 /* Models.swift in Sources */,
+				28E5697D2B38F8E800FDA704 /* BooksListView.swift in Sources */,
 				28E569302B37624F00FDA704 /* ContentView.swift in Sources */,
-				28E569322B37624F00FDA704 /* Item.swift in Sources */,
+				28E569602B37DEF000FDA704 /* WebView.swift in Sources */,
+				28E569852B39076500FDA704 /* UnauthenticatedView.swift in Sources */,
+				28E569752B38F2B300FDA704 /* Errors.swift in Sources */,
 				28E5692E2B37624F00FDA704 /* ThrowAwayApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,7 +340,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28E569762B38F2B300FDA704 /* Errors.swift in Sources */,
+				28E569822B38FF6400FDA704 /* BookDetailsView.swift in Sources */,
+				28E5697A2B38F2DD00FDA704 /* KindleAPI.swift in Sources */,
 				28E569432B37625100FDA704 /* ThrowAwayTests.swift in Sources */,
+				28E569722B38F27700FDA704 /* ViewModel.swift in Sources */,
+				28E569862B39076500FDA704 /* UnauthenticatedView.swift in Sources */,
+				28E5696D2B38F1B100FDA704 /* Models.swift in Sources */,
+				28E5697E2B38F8E800FDA704 /* BooksListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,7 +355,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28E5696E2B38F1B100FDA704 /* Models.swift in Sources */,
+				28E5697B2B38F2DD00FDA704 /* KindleAPI.swift in Sources */,
+				28E5697F2B38F8E800FDA704 /* BooksListView.swift in Sources */,
+				28E569772B38F2B300FDA704 /* Errors.swift in Sources */,
+				28E569832B38FF6400FDA704 /* BookDetailsView.swift in Sources */,
 				28E5694D2B37625100FDA704 /* ThrowAwayUITests.swift in Sources */,
+				28E569732B38F27700FDA704 /* ViewModel.swift in Sources */,
+				28E569872B39076500FDA704 /* UnauthenticatedView.swift in Sources */,
 				28E5694F2B37625100FDA704 /* ThrowAwayUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -423,9 +503,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ThrowAway/ThrowAway.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ThrowAway/Preview Content\"";
+				DEVELOPMENT_TEAM = 9YKSA5B4FP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ThrowAway/Info.plist;
@@ -447,10 +529,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = respawn.ThrowAway;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
@@ -460,9 +543,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ThrowAway/ThrowAway.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ThrowAway/Preview Content\"";
+				DEVELOPMENT_TEAM = 9YKSA5B4FP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ThrowAway/Info.plist;
@@ -484,10 +569,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = respawn.ThrowAway;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
 		};
@@ -617,6 +703,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		28E569672B37FD8700FDA704 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		28E569682B37FD8700FDA704 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28E569672B37FD8700FDA704 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 28E569222B37624F00FDA704 /* Project object */;
 }
