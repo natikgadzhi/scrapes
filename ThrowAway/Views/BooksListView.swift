@@ -13,38 +13,34 @@ struct BooksListView: View {
     
     @State var selection: Book? = nil
     @State var searchText: String = ""
-    
+
+    func filteredBooks() -> [Book] {
+        return self.viewModel.books
+            // Only show the ones that are filtered out by the search in the sidebar
+            .filter { $0.title.lowercased().contains(self.searchText.lowercased()) || self.searchText.isEmpty }
+            // And then sort them by modified at, descending.
+            .sorted { $0.modifiedAt > $1.modifiedAt }
+    }
+
     var body: some View {
+        
         NavigationSplitView {
-            List(
-                viewModel.books.filter {
-                    $0.title.lowercased().contains(self.searchText.lowercased()) || self.searchText.isEmpty
-                },
-                id: \.self, selection: $selection
-            ) { book in
-
-                // TODO: Extract into BooksListItem
-                NavigationLink(value: book) {
-                    VStack(alignment: .leading) {
-                        Text(book.title)
-                        Text(book.author)
-                            .font(.caption)
-                    }
-                    .padding(.vertical, 4)
-
-                }
+            List(filteredBooks(), id: \.self, selection: $selection) { book in
+                BookListItemView(book: book)
             }
             .listStyle(.sidebar)
             .searchable(text: $searchText)
+            
         } detail: {
-            if let book = selection {
-                BookDetailsView(book: book)
+            
+            if viewModel.isLoading {
+                LoadingView()
             } else {
-                Text("Select a book")
-                    .foregroundStyle(.secondary)
-
-                if viewModel.isLoading {
-                    LoadingView()
+                if let book = selection {
+                    BookDetailsView(book: book, viewModel: viewModel)
+                } else {
+                    Text("Select a book")
+                        .foregroundStyle(.secondary)
                 }
             }
         }

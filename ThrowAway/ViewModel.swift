@@ -18,9 +18,11 @@ import SwiftUI
     var recentError: Error? = nil
     
     var books: [Book]
+    var highlights: [Highlight]
     
     public init() {
         self.books = [Book]()
+        self.highlights = [Highlight]()
 
         self.kindleAPI = KindleAPI()
         self.kindleAPI.delegate = self
@@ -31,11 +33,11 @@ import SwiftUI
         self.isShowingAuth = false
 
         DispatchQueue.main.async {
-            self.prefetchBooks()
+            self.fetchBooks()
         }
     }
     
-    func prefetchBooks() {
+    func fetchBooks() {
         Task {
             self.isLoading = true
             
@@ -45,6 +47,22 @@ import SwiftUI
                 self.isAuthenticated = false
                 self.recentError = error
             }
+            self.isLoading = false
+        }
+    }
+
+    func fetchHighlights(for book: Book) {
+        Task {
+            self.isLoading = true
+            
+            do {
+                print("fetching highlights")
+                self.highlights = try await self.kindleAPI.getHighlights(for: book)
+            } catch {
+                self.isAuthenticated = false
+                self.recentError = error
+            }
+            
             self.isLoading = false
         }
     }

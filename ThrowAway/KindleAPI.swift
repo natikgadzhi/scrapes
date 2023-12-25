@@ -13,9 +13,9 @@ enum KindleEndpoint: String {
     case login      = "https://www.amazon.com/ap/signin?openid.pape.max_auth_age=1209600&openid.return_to=https%3A%2F%2Fread.amazon.com%2Fkindle-library&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=amzn_kindle_mykindle_us&openid.mode=checkid_setup&language=en_US&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&pageId=amzn_kindle_mykindle_us&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0"
     
     case books      = "https://read.amazon.com/notebook?ref_=kcr_notebook_lib&language=en-US"
-    case highlights = "TODO highlights"
+
     case library    = "https://read.amazon.com/kindle-library"
-    
+
     var url: URL {
         URL(string: self.rawValue)!
     }
@@ -53,7 +53,23 @@ class KindleAPI: NSObject {
     }
     
     func getHighlights(for book: Book) async throws -> [Highlight] {
-        return [Highlight]()
+        let urlString = "https://read.amazon.com/notebook?asin=\(book.asin)&contentLimitState=&"
+
+        let request = try self.makeRequest(url: URL(string: urlString)!)
+        let (data, _) = try await URLSession.shared.data(for: request)
+
+        let responseBody = String(data: data, encoding: .utf8)
+        guard let responseBody = responseBody else {
+            throw KindleError.badHTTPResponse
+        }
+
+        let page = try SwiftSoup.parse(responseBody)
+
+        let annoationsMarkup = try page.select(".kp-notebook-annotations")
+
+        let highlights = try annoationsMarkup.map { try Highlight.fromHTML($0) }
+
+        return highlights
     }
     
     

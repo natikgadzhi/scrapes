@@ -19,7 +19,7 @@ struct UnauthenticatedView: View {
                     .font(.largeTitle)
                     .bold()
                     .padding(.bottom, 4)
-                
+
                 Text("Scrapes, well, scrapes your Kindle highlights and notes.")
                     .lineLimit(3)
                     .padding(.bottom)
@@ -35,8 +35,13 @@ struct UnauthenticatedView: View {
             })
             .buttonStyle(.borderedProminent)
 
+            VStack(alignment: .leading) {
+                Text("Scrapes does not log or store your account credentials anywhere.")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+
         }
-        .frame(width: .infinity, height: .infinity)
         .sheet(isPresented: $viewModel.isShowingAuth) {
             WebViewSheet(viewModel: viewModel)
         }
