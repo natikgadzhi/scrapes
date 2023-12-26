@@ -13,6 +13,14 @@ struct ErrorView: View {
     
     @State private var offset = CGSize(width: 0, height: -100)
     
+    var errorDescription: String {
+        if let error = error as? KindleError {
+            return error.rawValue
+        } else {
+            return error.localizedDescription
+        }
+    }
+    
     var body: some View {
         VStack {
             withAnimation {
@@ -20,7 +28,7 @@ struct ErrorView: View {
                     Image(systemName: "exclamationmark.octagon")
                         .padding(.leading, 4)
 
-                    Text(error.localizedDescription)
+                    Text(errorDescription)
                         .foregroundColor(.black)
                         .lineLimit(2)
                         .padding(.trailing, 4)
