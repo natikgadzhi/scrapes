@@ -20,7 +20,7 @@ struct ContentView: View {
             if viewModel.isAuthenticated {
                 BooksListView(viewModel: viewModel)
             } else {
-                UnauthenticatedView(viewModel: viewModel)
+                UnauthenticatedView()
             }
 
             if let error = viewModel.recentError {

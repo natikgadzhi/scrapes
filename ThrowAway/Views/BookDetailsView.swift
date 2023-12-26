@@ -8,17 +8,15 @@
 import SwiftUI
 
 struct BookDetailsView: View {
-
+    
     var book: Book
-
-    @Bindable var viewModel: ViewModel
 
     var body: some View {
         ZStack {
-            if !viewModel.highlights.isEmpty {
+            if !book.highlights.isEmpty {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("You have \(viewModel.highlights.count) highlights")
+                        Text("You have \(book.highlights.count) highlights")
 
                         Spacer()
 
@@ -32,7 +30,7 @@ struct BookDetailsView: View {
                     }
 
                     List {
-                        ForEach(viewModel.highlights) { highlight in
+                        ForEach(book.highlights) { highlight in
                             Text(highlight.text)
                                 .padding(.bottom, 10)
                                 .listRowSeparator(.hidden)
@@ -42,21 +40,13 @@ struct BookDetailsView: View {
                 }
                 .padding()
             }
-
-            if viewModel.isLoading {
-                LoadingView()
-            }
         }
         .navigationTitle(book.title)
-        .onAppear {
-            print("details scren on appear")
-            self.viewModel.fetchHighlights(for: book)
-        }
     }
 }
 
 #Preview {
     NavigationStack {
-        BookDetailsView(book: Book.mockBooks[1], viewModel: ViewModel())
+        BookDetailsView(book: Book.mockBooks[1])
     }
 }

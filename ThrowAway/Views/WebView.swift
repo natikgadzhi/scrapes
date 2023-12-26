@@ -8,21 +8,19 @@
 import SwiftUI
 import WebKit
 
-import SwiftSoup
-
 /// WebViewSheet wraps a web view in a sheet presentation with a cancel button on it.
 struct WebViewSheet: View {
     
-    var viewModel: ViewModel
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationStack {
-            WebView(url: KindleEndpoint.login.url, navigationDelegate: viewModel.kindleAPI)
+            WebView(url: KindleEndpoint.login.url, navigationDelegate: KindleAPI.shared)
                 .padding(.vertical)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Cancel") {
-                            viewModel.isShowingAuth = false
+                            dismiss()
                         }
                     }
                 }
@@ -53,9 +51,8 @@ struct WebView: UIViewRepresentable {
         let request = URLRequest(url: url)
         webView.load(request)
     }
-    
 }
 
 #Preview {
-    WebViewSheet(viewModel: ViewModel())
+    WebViewSheet()
 }

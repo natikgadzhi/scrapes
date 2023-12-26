@@ -14,5 +14,6 @@ struct ThrowAwayApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Book.self, inMemory: true)
     }
 }

@@ -6,97 +6,123 @@
 //
 
 import Foundation
+import SwiftData
 import SwiftSoup
 
-
 /// Represents a single book in Kindle's website representation
-struct Book: Identifiable, Hashable {
-    
+@Model class Book {
+
     /// `id` is based on `asin`, but required for `Identifiable` conformance.
-    var id: String {
-        return asin
+    @Attribute(.unique) var id: String
+    var title: String
+    
+    var author: String
+    var modifiedAt: Date
+    
+    @Relationship(deleteRule: .cascade, inverse: \Highlight.book) var highlights: [Highlight]
+    
+    public init(id: String, title: String, author: String, modifiedAt: Date, highlights: [Highlight] = [Highlight]()) {
+        self.id = id
+        self.title = title
+        self.author = author
+        self.modifiedAt = modifiedAt
+        self.highlights = highlights
     }
     
-    let title: String
-    let author: String
-    
-    /// Kindle's ASIN, i.e. B004W3FM4A
-    let asin: String
-
-    let modifiedAt: Date
-
     /// Make a new `Book` from a `SwiftSoup.Element` and return it.
-    /// TODO: Add more fields into `Book`
-    static func fromHTML(_ markup: SwiftSoup.Element) throws -> Book {
-        let asin = markup.id()
-
+    public init(from markup: SwiftSoup.Element) throws {
+        let id = markup.id()
+        self.id = id
+    
         let title = try markup.select("h2").first()?.text()
         guard let title = title else {
             throw KindleError.errorParsingBooks
         }
+        self.title = title
 
         let authorString = try markup.select("p.kp-notebook-searchable").first()?.text()
         guard let authorString = authorString else {
             throw KindleError.errorParsingBooks
         }
+        self.author = authorString
 
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "EEEE MMM d, yyyy"
 
-        let modifiedAtString = try markup.select("#kp-notebook-annotated-date-\(asin)").val()
+        let modifiedAtString = try markup.select("#kp-notebook-annotated-date-\(id)").val()
         let modifiedAt = dateFormatter.date(from: modifiedAtString)
         guard let modifiedAt = modifiedAt else {
             throw KindleError.errorParsingBooks
         }
-
-        return Book(title: title, author: authorString, asin: asin, modifiedAt: modifiedAt)
-    }
-    
-}
-
-extension Book {
-    static var mockBooks: [Book] {
-        [
-            Book(title: "All Tomorrow's Parties", author: "William Gibson", asin: "1", modifiedAt: Date()),
-            Book(title: "Idoru", author: "William Gibson", asin: "2", modifiedAt: Date.distantPast),
-            Book(title: "Virtual Light", author: "William Gibson", asin: "3", modifiedAt: Date.distantPast)
-        ]
+        self.modifiedAt = modifiedAt
+        self.highlights = [Highlight]()
     }
 }
+
+// MARK: Highlights
 
 /// Highlight is a single highlight block in a book.
-struct Highlight: Identifiable, Hashable {
+@Model class Highlight {
 
     // QTIzRkhUSFVLRTgwRFc6QjAwNFczRk00QTo1NTQyOkhJR0hMSUdIVDphMzFmMWNiODMtMTlmNC00MzMxLWE0MTAtYzIzYTM3YzFjYTg0
-    let id: String
+    @Attribute(.unique) var id: String
 
     // Highlight or Note
-    let type: String
+    var type: String
 
     // Highlight text
-    let text: String
+    var text: String
     
     // Position in the book
-    let position: Int
+    var position: Int
 
     // Page number in the book
-    let page: Int
+    var page: Int
 
     // kp-highlight-yellow, etc
-    let color: String
+    var color: String
+    
+    var book: Book
+    
+    public init(book: Book, id: String, type: String, text: String, position: Int, page: Int, color: String) {
+        self.book = book
+        self.id = id
+        self.type = type
+        self.text = text
+        self.position = position
+        self.page = page
+        self.color = color
+    }
 
 
-    static func fromHTML(_ markup: SwiftSoup.Element ) throws -> Highlight {
-
-        let id = markup.id()
+    public init(for book: Book, from markup: SwiftSoup.Element ) throws {
+        self.book = book
+        self.id = markup.id()
 
         let text = try markup.select("#highlight").first()?.text()
         guard let text = text else {
             throw KindleError.errorParsingBooks
         }
-
-        return Highlight(id: id, type: "Highlight", text: text, position: 0, page: 0, color: "yellow")
+        self.text = text
+        
+        // FIXME 
+        self.type = "Highlight"
+        self.position = 0
+        self.page = 0
+        self.color = "Yellow"
     }
 
+}
+
+// MARK: Mock Data
+
+extension Book {
+    static var mockBooks: [Book] {
+        [
+            Book(id: "1", title: "All Tomorrow's Parties", author: "William Gibson", modifiedAt: Date()),
+            Book(id: "2", title: "Idoru", author: "William Gibson", modifiedAt: Date.distantPast),
+            Book(id: "3", title: "Virtual Light", author: "William Gibson", modifiedAt: Date.distantPast)
+        ]
+    }
 }

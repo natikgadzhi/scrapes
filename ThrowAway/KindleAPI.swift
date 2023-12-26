@@ -23,6 +23,8 @@ enum KindleEndpoint: String {
 
 class KindleAPI: NSObject {
     
+    static var shared = KindleAPI()
+    
     private var cookies: [HTTPCookie]?
     
     // Upstream View Model
@@ -47,13 +49,13 @@ class KindleAPI: NSObject {
             throw KindleError.errorParsingBooks
         }
         
-        let books = try booksMarkup.map { try Book.fromHTML($0)}
+        let books = try booksMarkup.map { try Book(from: $0) }
         
         return books
     }
     
     func getHighlights(for book: Book) async throws -> [Highlight] {
-        let urlString = "https://read.amazon.com/notebook?asin=\(book.asin)&contentLimitState=&"
+        let urlString = "https://read.amazon.com/notebook?asin=\(book.id)&contentLimitState=&"
 
         let request = try self.makeRequest(url: URL(string: urlString)!)
         let (data, _) = try await URLSession.shared.data(for: request)
@@ -67,7 +69,7 @@ class KindleAPI: NSObject {
 
         let annoationsMarkup = try page.select(".kp-notebook-annotations")
 
-        let highlights = try annoationsMarkup.map { try Highlight.fromHTML($0) }
+        let highlights = try annoationsMarkup.map { try Highlight(for: book, from: $0) }
 
         return highlights
     }
