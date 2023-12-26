@@ -9,6 +9,7 @@ import Foundation
 import WebKit
 import SwiftSoup
 
+/// KindleEndpoint represents API endpoints and auth site that are used to grab the data for books and highlights.
 struct KindleEndpoint {
     let urlString: String
     
@@ -33,16 +34,24 @@ struct KindleEndpoint {
 //
 class KindleAPI: NSObject {
     
+    /// An instance of `KindleAPI`.
     static var shared = KindleAPI()
     
-    private var cookies: [HTTPCookie]?
+    /// Cookies to inject as headers into API URLRequests.
+    /// They're saved from the authentication web view when it successfully authenticates.
+    private var cookies: [HTTPCookie]? = nil
+    
+    // URLSessionWrapper has an actual URLSession in it,
+    // but wraps it in a conditional to allow for test network request stubs.
+    private var urlSession = URLSessionWrapper()
     
     // Upstream View Model
     var delegate: ViewModel? = nil
     
     func getBooks() async throws -> [Book] {
         let request = try self.makeRequest(url: KindleEndpoint.books.url)
-        let (data, _) = try await URLSession.shared.data(for: request)
+        
+        let (data, _) = try await self.urlSession.data(for: request)
         
         let responseBody = String(data: data, encoding: .utf8)
         guard let responseBody = responseBody else {
@@ -67,7 +76,7 @@ class KindleAPI: NSObject {
     func getHighlights(for book: Book) async throws -> [Highlight] {
         let url = KindleEndpoint.highlights(asin: book.id).url
         let request = try self.makeRequest(url: url)
-        let (data, _) = try await URLSession.shared.data(for: request)
+        let (data, _) = try await self.urlSession.data(for: request)
 
         let responseBody = String(data: data, encoding: .utf8)
         guard let responseBody = responseBody else {

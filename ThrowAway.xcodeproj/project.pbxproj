@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		281AEAC42B3B6BFC00DE1C33 /* URLSessionWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281AEAC32B3B6BFC00DE1C33 /* URLSessionWrapper.swift */; };
+		281AEAC52B3B6BFC00DE1C33 /* URLSessionWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281AEAC32B3B6BFC00DE1C33 /* URLSessionWrapper.swift */; };
+		281AEAC62B3B6BFC00DE1C33 /* URLSessionWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281AEAC32B3B6BFC00DE1C33 /* URLSessionWrapper.swift */; };
+		281AEAC82B3B6E6500DE1C33 /* ProcessInfo+Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281AEAC72B3B6E6500DE1C33 /* ProcessInfo+Previews.swift */; };
+		281AEAC92B3B6E6500DE1C33 /* ProcessInfo+Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281AEAC72B3B6E6500DE1C33 /* ProcessInfo+Previews.swift */; };
+		281AEACA2B3B6E6500DE1C33 /* ProcessInfo+Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281AEAC72B3B6E6500DE1C33 /* ProcessInfo+Previews.swift */; };
 		281BA2DA2B39DAFD00732CD8 /* BookListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281BA2D92B39DAFD00732CD8 /* BookListItemView.swift */; };
 		281BA2DB2B39DAFD00732CD8 /* BookListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281BA2D92B39DAFD00732CD8 /* BookListItemView.swift */; };
 		281BA2DC2B39DAFD00732CD8 /* BookListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281BA2D92B39DAFD00732CD8 /* BookListItemView.swift */; };
@@ -70,6 +76,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		281AEAC32B3B6BFC00DE1C33 /* URLSessionWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionWrapper.swift; sourceTree = "<group>"; };
+		281AEAC72B3B6E6500DE1C33 /* ProcessInfo+Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProcessInfo+Previews.swift"; sourceTree = "<group>"; };
 		281BA2D92B39DAFD00732CD8 /* BookListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListItemView.swift; sourceTree = "<group>"; };
 		28392AFC2B392B4900833F1A /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		28392AFE2B3930C100833F1A /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -121,6 +129,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		281AEACB2B3B6F0600DE1C33 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				281AEAC72B3B6E6500DE1C33 /* ProcessInfo+Previews.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		281AEACC2B3B72B300DE1C33 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				281AEAC32B3B6BFC00DE1C33 /* URLSessionWrapper.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		28392B002B39329C00833F1A /* Layout */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,12 +178,14 @@
 		28E5692C2B37624F00FDA704 /* ThrowAway */ = {
 			isa = PBXGroup;
 			children = (
+				281AEACC2B3B72B300DE1C33 /* Utils */,
 				28E569702B38F27700FDA704 /* ViewModel.swift */,
 				28E5692D2B37624F00FDA704 /* ThrowAwayApp.swift */,
 				28E569742B38F2B300FDA704 /* Errors.swift */,
 				28E569782B38F2DD00FDA704 /* KindleAPI.swift */,
 				28E5696F2B38F25100FDA704 /* Views */,
 				28E5696A2B38F19F00FDA704 /* Models */,
+				281AEACB2B3B6F0600DE1C33 /* Extensions */,
 				28E569332B37625000FDA704 /* Assets.xcassets */,
 				28E569352B37625000FDA704 /* ThrowAway.entitlements */,
 				28E569392B37625000FDA704 /* Info.plist */,
@@ -360,6 +386,8 @@
 				28E569302B37624F00FDA704 /* ContentView.swift in Sources */,
 				28E569602B37DEF000FDA704 /* WebView.swift in Sources */,
 				28E569852B39076500FDA704 /* UnauthenticatedView.swift in Sources */,
+				281AEAC82B3B6E6500DE1C33 /* ProcessInfo+Previews.swift in Sources */,
+				281AEAC42B3B6BFC00DE1C33 /* URLSessionWrapper.swift in Sources */,
 				281BA2DA2B39DAFD00732CD8 /* BookListItemView.swift in Sources */,
 				28E569752B38F2B300FDA704 /* Errors.swift in Sources */,
 				28E5692E2B37624F00FDA704 /* ThrowAwayApp.swift in Sources */,
@@ -380,6 +408,8 @@
 				28E569432B37625100FDA704 /* ThrowAwayTests.swift in Sources */,
 				28E569722B38F27700FDA704 /* ViewModel.swift in Sources */,
 				28E569862B39076500FDA704 /* UnauthenticatedView.swift in Sources */,
+				281AEAC92B3B6E6500DE1C33 /* ProcessInfo+Previews.swift in Sources */,
+				281AEAC52B3B6BFC00DE1C33 /* URLSessionWrapper.swift in Sources */,
 				28E5696D2B38F1B100FDA704 /* Models.swift in Sources */,
 				28E5697E2B38F8E800FDA704 /* BooksListView.swift in Sources */,
 				281BA2DF2B39DB5D00732CD8 /* ErrorView.swift in Sources */,
@@ -395,7 +425,9 @@
 				281BA2DC2B39DAFD00732CD8 /* BookListItemView.swift in Sources */,
 				281BA2DE2B39DB5800732CD8 /* LoadingView.swift in Sources */,
 				28E5697F2B38F8E800FDA704 /* BooksListView.swift in Sources */,
+				281AEACA2B3B6E6500DE1C33 /* ProcessInfo+Previews.swift in Sources */,
 				28E569772B38F2B300FDA704 /* Errors.swift in Sources */,
+				281AEAC62B3B6BFC00DE1C33 /* URLSessionWrapper.swift in Sources */,
 				28E569832B38FF6400FDA704 /* BookDetailsView.swift in Sources */,
 				281BA2E02B39DB5D00732CD8 /* ErrorView.swift in Sources */,
 				28E5694D2B37625100FDA704 /* ThrowAwayUITests.swift in Sources */,
