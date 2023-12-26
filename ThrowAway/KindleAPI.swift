@@ -9,18 +9,28 @@ import Foundation
 import WebKit
 import SwiftSoup
 
-enum KindleEndpoint: String {
-    case login      = "https://www.amazon.com/ap/signin?openid.pape.max_auth_age=1209600&openid.return_to=https%3A%2F%2Fread.amazon.com%2Fkindle-library&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=amzn_kindle_mykindle_us&openid.mode=checkid_setup&language=en_US&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&pageId=amzn_kindle_mykindle_us&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0"
+struct KindleEndpoint {
+    let urlString: String
     
-    case books      = "https://read.amazon.com/notebook?ref_=kcr_notebook_lib&language=en-US"
-
-    case library    = "https://read.amazon.com/kindle-library"
-
     var url: URL {
-        URL(string: self.rawValue)!
+        return URL(string: urlString)!
+    }
+    
+    static var login = KindleEndpoint(urlString: "https://www.amazon.com/ap/signin?openid.pape.max_auth_age=1209600&openid.return_to=https%3A%2F%2Fread.amazon.com%2Fkindle-library&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=amzn_kindle_mykindle_us&openid.mode=checkid_setup&language=en_US&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&pageId=amzn_kindle_mykindle_us&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0")
+    
+    static var books = KindleEndpoint(urlString: "https://read.amazon.com/notebook?ref_=kcr_notebook_lib&language=en-US")
+    
+    static var library = KindleEndpoint(urlString: "https://read.amazon.com/kindle-library")
+    
+    static func highlights(asin: String, cursor: String = "") -> KindleEndpoint {
+        return KindleEndpoint(urlString: "https://read.amazon.com/notebook?asin=\(asin)&contentLimitState=\(cursor)&")
     }
 }
 
+// TODO:
+// Use `ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"]` to check for preview environment and
+// avoid making API requests in it.
+//
 class KindleAPI: NSObject {
     
     static var shared = KindleAPI()
@@ -55,9 +65,8 @@ class KindleAPI: NSObject {
     }
     
     func getHighlights(for book: Book) async throws -> [Highlight] {
-        let urlString = "https://read.amazon.com/notebook?asin=\(book.id)&contentLimitState=&"
-
-        let request = try self.makeRequest(url: URL(string: urlString)!)
+        let url = KindleEndpoint.highlights(asin: book.id).url
+        let request = try self.makeRequest(url: url)
         let (data, _) = try await URLSession.shared.data(for: request)
 
         let responseBody = String(data: data, encoding: .utf8)
@@ -93,6 +102,9 @@ class KindleAPI: NSObject {
 
 extension KindleAPI: WKNavigationDelegate {
     
+    // webView delegate is passed to the authentication webView.
+    // It's job is to detect when the webview navigates to the library page (i.e. successfully authenticated)
+    // and grab the cookies from the webview.
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
