@@ -12,10 +12,11 @@ struct URLSessionWrapper {
     let urlSession = URLSession.shared
     
     func data(for request: URLRequest, delegate: (URLSessionTaskDelegate)? = nil) async throws -> (Data, URLResponse) {
-        if ProcessInfo.useStubs {
+        if ProcessInfo.isTest {
             print("Stubbing the requests")
             return try await urlSession.data(for: request)
         } else {
+            print("running real URLSession for \(request.url?.absoluteString)")
             return try await urlSession.data(for: request)
         }
     }

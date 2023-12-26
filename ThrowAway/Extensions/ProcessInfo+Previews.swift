@@ -16,8 +16,4 @@ extension ProcessInfo {
     static var isTest: Bool {
         return ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
     }
-    
-    static var useStubs: Bool {
-        return isTest || isPreview
-    }
 }

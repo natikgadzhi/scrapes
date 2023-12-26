@@ -24,6 +24,7 @@ struct BooksListView: View {
             // Only show the ones that are filtered out by the search in the sidebar
             .filter { $0.title.lowercased().contains(self.searchText.lowercased()) || self.searchText.isEmpty }
             // And then sort them by modified at, descending.
+            // TODO: Move sorting to query predicate
             .sorted { $0.modifiedAt > $1.modifiedAt }
     }
     
@@ -32,7 +33,6 @@ struct BooksListView: View {
             modelContext.autosaveEnabled = false
             let books = try await KindleAPI.shared.getBooks()
             for book in books {
-                print("adding book: \(book.id): \(book.title)")
                 modelContext.insert(book)
             }
             try modelContext.save()
@@ -42,11 +42,15 @@ struct BooksListView: View {
     var body: some View {
         
         NavigationSplitView {
-            List(filteredBooks(), id: \.self, selection: $selection) { book in
-                BookListItemView(book: book)
+            if books.isEmpty {
+                Text("No books with highlights in your collection")
+            } else {
+                List(filteredBooks(), id: \.self, selection: $selection) { book in
+                    BookListItemView(book: book)
+                }
+                .listStyle(.sidebar)
+                .searchable(text: $searchText)
             }
-            .listStyle(.sidebar)
-            .searchable(text: $searchText)
             
         } detail: {
             

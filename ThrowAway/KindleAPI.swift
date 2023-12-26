@@ -39,7 +39,7 @@ class KindleAPI: NSObject {
     
     /// Cookies to inject as headers into API URLRequests.
     /// They're saved from the authentication web view when it successfully authenticates.
-    private var cookies: [HTTPCookie]? = nil
+    private var cookies = [HTTPCookie]()
     
     // URLSessionWrapper has an actual URLSession in it,
     // but wraps it in a conditional to allow for test network request stubs.
@@ -94,7 +94,7 @@ class KindleAPI: NSObject {
     
     /// Makes a new `URLRequest` and sets the headers into it
     private func makeRequest(url: URL) throws -> URLRequest {
-        guard let cookies = cookies else {
+        guard ProcessInfo.isTest || !self.cookies.isEmpty else {
             throw KindleError.noCookies
         }
         
