@@ -27,18 +27,15 @@ struct BooksListView: View {
             .sorted { $0.modifiedAt > $1.modifiedAt }
     }
     
-    /// `fetchBooks` is called when this view apperas, and it loads the books from the API and into the model context.
-    private func fetchBooks() {
-        Task {
-            // FIXME: This feels slow. I think it's saving every record separately. Wrap them in a single transaction?
-            viewModel.withLoading {
-                let books = try await KindleAPI.shared.getBooks()
-                for book in books {
-                    modelContext.insert(book)
-                }
-                
-                try modelContext.save()
+    private func fetchBooks() async {
+        await viewModel.withLoading {
+            modelContext.autosaveEnabled = false
+            let books = try await KindleAPI.shared.getBooks()
+            for book in books {
+                print("adding book: \(book.id): \(book.title)")
+                modelContext.insert(book)
             }
+            try modelContext.save()
         }
     }
 
@@ -64,7 +61,7 @@ struct BooksListView: View {
                 }
             }
         }
-        .onAppear(perform: fetchBooks)
+        .task(fetchBooks)
     }
 }
 

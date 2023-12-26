@@ -66,10 +66,9 @@ class KindleAPI: NSObject {
         }
 
         let page = try SwiftSoup.parse(responseBody)
+        let allAnnotations = try page.select("#kp-notebook-annotations > div:not(:last-child)")
 
-        let annoationsMarkup = try page.select(".kp-notebook-annotations")
-
-        let highlights = try annoationsMarkup.map { try Highlight(for: book, from: $0) }
+        let highlights = try allAnnotations.map { try Highlight(for: book, from: $0) }
 
         return highlights
     }

@@ -6,11 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BookDetailsView: View {
     
+    @Environment(\.modelContext) var modelContext
+    
     var book: Book
-
+    
+    @State var isLoading = false
+    
     var body: some View {
         ZStack {
             if !book.highlights.isEmpty {
@@ -40,6 +45,27 @@ struct BookDetailsView: View {
                 }
                 .padding()
             }
+            
+            if isLoading {
+                LoadingView()
+            }
+        }
+        .task(id: book) {
+            self.isLoading = true
+            
+            do {
+                book.highlights = try await KindleAPI.shared.getHighlights(for: book)
+            } catch {
+                print(error)
+            }
+            
+            do {
+                try modelContext.save()
+            } catch {
+                print(error)
+            }
+            
+            self.isLoading = false
         }
         .navigationTitle(book.title)
     }

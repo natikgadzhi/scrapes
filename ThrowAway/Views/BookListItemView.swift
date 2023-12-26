@@ -33,7 +33,6 @@ struct BookListItemView: View {
                         .font(.caption2)
                 }
                 .padding(.bottom, 2)
-                
             }
             .padding(.vertical, 4)
         }

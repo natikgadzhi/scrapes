@@ -9,45 +9,30 @@ import SwiftUI
 import SwiftData
 
 @Observable class ViewModel {
-        
-    var isAuthenticated: Bool = false
-    var isLoading: Bool = false
     
-    var recentError: Error? = nil
+    var isAuthenticated: Bool   = false
+    var isLoading: Bool         = false
+    var recentError: Error?     = nil
     
     public init() {
         KindleAPI.shared.delegate = self
     }
     
+    // KindleAPI calls the delegate and sets the authentication flag.
     func onSuccessfulAuth() {
-        self.isAuthenticated = true
+        DispatchQueue.main.async {
+            self.isAuthenticated = true
+        }
     }
     
-    func withLoading(perform: @escaping (() async throws -> Void)) {
-        Task {
-            self.isLoading = true
-            do {
-                try await perform()
-            } catch {
-                self.recentError = error
-            }
-            self.isLoading = false
+    // FIXME: Clearly I'm doing threading wrong.
+    func withLoading(perform: @escaping (() async throws -> Void)) async {
+        DispatchQueue.main.async { self.isLoading = true }
+        do {
+            try await perform()
+        } catch {
+            DispatchQueue.main.async { self.recentError = error }
         }
-    }
-
-    func fetchHighlights(for book: Book) {
-        Task {
-            self.isLoading = true
-            
-            do {
-                let highlights = try await KindleAPI.shared.getHighlights(for: book)
-                book.highlights = highlights
-            } catch {
-                self.isAuthenticated = false
-                self.recentError = error
-            }
-            
-            self.isLoading = false
-        }
+        DispatchQueue.main.async { self.isLoading = false }
     }
 }

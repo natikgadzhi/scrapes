@@ -83,7 +83,7 @@ import SwiftSoup
     // kp-highlight-yellow, etc
     var color: String
     
-    var book: Book
+    var book: Book?
     
     public init(book: Book, id: String, type: String, text: String, position: Int, page: Int, color: String) {
         self.book = book
@@ -94,7 +94,15 @@ import SwiftSoup
         self.page = page
         self.color = color
     }
-
+    
+    public init(id: String, type: String, text: String, position: Int, page: Int, color: String) {
+        self.id = id
+        self.type = type
+        self.text = text
+        self.position = position
+        self.page = page
+        self.color = color
+    }
 
     public init(for book: Book, from markup: SwiftSoup.Element ) throws {
         self.book = book
@@ -106,7 +114,7 @@ import SwiftSoup
         }
         self.text = text
         
-        // FIXME 
+        // FIXME
         self.type = "Highlight"
         self.position = 0
         self.page = 0
