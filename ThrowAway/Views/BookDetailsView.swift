@@ -73,6 +73,6 @@ struct BookDetailsView: View {
 
 #Preview {
     NavigationStack {
-        BookDetailsView(book: Book.mockBooks[1])
+        BookDetailsView(book: MockData.books[1])
     }
 }

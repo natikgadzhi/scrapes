@@ -16,7 +16,6 @@ struct URLSessionWrapper {
             print("Stubbing the requests")
             return try await urlSession.data(for: request)
         } else {
-            print("running real URLSession for \(request.url?.absoluteString)")
             return try await urlSession.data(for: request)
         }
     }

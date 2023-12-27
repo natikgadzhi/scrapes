@@ -16,7 +16,7 @@ struct WebViewSheet: View {
     var body: some View {
         NavigationStack {
             WebView(url: KindleEndpoint.login.url, navigationDelegate: KindleAPI.shared)
-                .padding(.vertical)
+                .padding(.top)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Cancel") {

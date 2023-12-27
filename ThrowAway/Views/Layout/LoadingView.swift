@@ -17,6 +17,20 @@ struct LoadingView: View {
     }
 }
 
+struct WithLoadingView<Content: View>: View {
+    @Binding var isLoading: Bool
+    
+    let content: () -> Content
+    
+    var body: some View {
+        if isLoading {
+            LoadingView()
+        } else {
+            content()
+        }
+    }
+}
+
 #Preview {
     LoadingView()
 }

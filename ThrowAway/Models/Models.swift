@@ -122,15 +122,3 @@ import SwiftSoup
     }
 
 }
-
-// MARK: Mock Data
-
-extension Book {
-    static var mockBooks: [Book] {
-        [
-            Book(id: "1", title: "All Tomorrow's Parties", author: "William Gibson", modifiedAt: Date()),
-            Book(id: "2", title: "Idoru", author: "William Gibson", modifiedAt: Date.distantPast),
-            Book(id: "3", title: "Virtual Light", author: "William Gibson", modifiedAt: Date.distantPast)
-        ]
-    }
-}

@@ -14,6 +14,7 @@ import SwiftData
     var isLoading: Bool         = false
     var recentError: Error?     = nil
     
+    // TODO: This might be a problem if we'll init two VMs in some code
     public init() {
         KindleAPI.shared.delegate = self
     }
@@ -36,3 +37,5 @@ import SwiftData
         DispatchQueue.main.async { self.isLoading = false }
     }
 }
+
+

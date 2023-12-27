@@ -40,5 +40,7 @@ struct BookListItemView: View {
 }
 
 #Preview {
-    BookListItemView(book: Book.mockBooks.first!)
+    NavigationStack {
+        BookListItemView(book: MockData.books.first!)
+    }
 }

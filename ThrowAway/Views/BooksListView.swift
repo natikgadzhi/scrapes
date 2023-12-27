@@ -21,14 +21,14 @@ struct BooksListView: View {
     /// A helper function to filter out the list of books for the sidebar search results.
     private func filteredBooks() -> [Book] {
         return self.books
-            // Only show the ones that are filtered out by the search in the sidebar
+        // Only show the ones that are filtered out by the search in the sidebar
             .filter { $0.title.lowercased().contains(self.searchText.lowercased()) || self.searchText.isEmpty }
-            // And then sort them by modified at, descending.
-            // TODO: Move sorting to query predicate
+        // And then sort them by modified at, descending.
+        // TODO: Move sorting to query predicate
             .sorted { $0.modifiedAt > $1.modifiedAt }
     }
     
-    private func fetchBooks() async {
+    @Sendable private func fetchBooks() async {
         await viewModel.withLoading {
             modelContext.autosaveEnabled = false
             let books = try await KindleAPI.shared.getBooks()
@@ -38,22 +38,24 @@ struct BooksListView: View {
             try modelContext.save()
         }
     }
-
+    
     var body: some View {
-        
         NavigationSplitView {
-            if books.isEmpty {
-                Text("No books with highlights in your collection")
-            } else {
-                List(filteredBooks(), id: \.self, selection: $selection) { book in
-                    BookListItemView(book: book)
-                }
-                .listStyle(.sidebar)
-                .searchable(text: $searchText)
+            if viewModel.isLoading {
+                LoadingView()
             }
-            
+            else {
+                if books.isEmpty {
+                    Text("No books with highlights in your collection")
+                } else {
+                    List(filteredBooks(), id: \.self, selection: $selection) { book in
+                        BookListItemView(book: book)
+                    }
+                    .listStyle(.sidebar)
+                    .searchable(text: $searchText)
+                }
+            }
         } detail: {
-            
             if viewModel.isLoading {
                 LoadingView()
             } else {
@@ -70,5 +72,14 @@ struct BooksListView: View {
 }
 
 #Preview {
-    BooksListView(viewModel: ViewModel())
+    return BooksListView(viewModel: ViewModel())
+        .modelContainer(MockData.previewContainer)
+}
+
+#Preview {
+    
+    let vm = ViewModel()
+    vm.isLoading = true
+    
+    return BooksListView(viewModel: vm)
 }
