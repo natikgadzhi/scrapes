@@ -10,7 +10,7 @@ import SwiftData
 
 @Observable class ViewModel {
     
-    var isAuthenticated: Bool   = false
+    var unauthenticated: Bool   = true
     var isLoading: Bool         = false
     var recentError: Error?     = nil
     
@@ -22,7 +22,7 @@ import SwiftData
     // KindleAPI calls the delegate and sets the authentication flag.
     func onSuccessfulAuth() {
         DispatchQueue.main.async {
-            self.isAuthenticated = true
+            self.unauthenticated = false
         }
     }
     
@@ -32,10 +32,10 @@ import SwiftData
         do {
             try await perform()
         } catch {
-            DispatchQueue.main.async { self.recentError = error }
+            DispatchQueue.main.async {
+                self.recentError = error
+            }
         }
         DispatchQueue.main.async { self.isLoading = false }
     }
 }
-
-

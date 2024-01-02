@@ -7,44 +7,40 @@
 
 import SwiftUI
 
-struct Icon: View {
+struct IconView: View {
+    var size: CGFloat
+    
     var body: some View {
-        
         ZStack {
             Color.iconBackground
             
             RadialGradient(gradient: Gradient(colors: [Color.white.opacity(0.175), Color.iconBackground]),
                            center: .center,
                            startRadius: 0,
-                           endRadius:  1800)
+                           endRadius:  size * 2)
             
             Group {
                 Image(systemName: "bookmark.fill")
-                    .font(.system(size: 800))
+                    .font(.system(size: size * 0.8))
                     .fontWeight(.thin)
                     .foregroundStyle(Color.bookmark)
                     .overlay(
-                        LinearGradient(colors: [Color.black.opacity(0.05), Color.black.opacity(0.5)], startPoint: .topLeading, endPoint: .bottomTrailing)
+                        LinearGradient(colors: [Color.black.opacity(0.05), Color.black.opacity(0.3)], startPoint: .topLeading, endPoint: .bottomTrailing)
                             .mask {
                                 Image(systemName: "bookmark.fill")
-                                    .font(.system(size: 800))
+                                    .font(.system(size: size * 0.8))
                                     .fontWeight(.thin)
                             }
-                            .blendMode(.darken)
                     )
                 
-                
-                
                 Image(systemName: "text.quote")
-                    .font(.system(size: 300))
+                    .font(.system(size: size * 0.3))
                     .foregroundStyle(.black.opacity(0.8))
-                    .offset(y: -110)
+                    .offset(y: -size * 0.1)
             }
-            .offset(x: 0, y: -10)
-
         }
-        .clipShape(RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/, style: .circular))
-        .frame(width: 1024, height: 1024)
+        .clipShape(RoundedRectangle(cornerRadius: max(size * 0.025, 10), style: .circular))
+        .frame(width: size, height: size)
     }
     
     @MainActor func snapshot() -> UIImage? {
@@ -60,49 +56,10 @@ struct Icon: View {
     }
 }
 
-struct IconHostView: View {
-    
-    var body: some View {
-        VStack {
-            iconView()
-                .padding()
-            
-            Button("Save Icon") {
-                print("Saving!")
-                
-                if let image = self.iconView().snapshot() {
-                    if let imageData = image.pngData() {
-                        // Use the image, e.g., save it to the Photos album
-                        // UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                        
-                        let documentsDirectory = FileManager.default.urls(for: .picturesDirectory, in: .userDomainMask).first!
-                        let fileName = "icon-from-swiftUI.png"
-                        let fileURL = documentsDirectory.appendingPathComponent(fileName)
-                        
-                        do {
-                            try imageData.write(to: fileURL)
-                        } catch {
-                            print("Could not save the view into a PNG: \(error.localizedDescription)")
-                        }
-                    } else {
-                        print("Could not save the view into a PNG")
-                    }
-                }
-            }
-            .buttonStyle(.borderedProminent)
-        }
-    }
-    
-    func iconView() -> Icon {
-        return Icon()
-    }
-}
-
 #Preview {
-    IconHostView()
+    IconView(size: 200)
 }
 
-// TODO: Move colors into the assets bundle
 extension Color {
     static var iconBackground = Color.black
     static var bookmark = Color.yellow
