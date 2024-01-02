@@ -8,15 +8,15 @@
 import SwiftUI
 import WebKit
 
-/// WebViewSheet wraps a web view in a sheet presentation with a cancel button on it.
+/// WebViewSheet wraps a web view in a navigation stack, to be used in a sheet, with a cancel button on it.
 struct WebViewSheet: View {
     
     @Environment(\.dismiss) var dismiss
+    var url: URL
     
     var body: some View {
         NavigationStack {
-            WebView(url: KindleEndpoint.login.url, navigationDelegate: KindleAPI.shared)
-                .padding(.top)
+            WebView(url: url, navigationDelegate: KindleAPI.shared)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Cancel") {
@@ -45,8 +45,6 @@ struct WebView: UIViewRepresentable {
         return webView
     }
     
-    // FIXME: Um, I don't think we should load the url on every `updateView`,
-    // perhaps only on the first one.
     func updateUIView(_ webView: WKWebView, context: Context) {
         let request = URLRequest(url: url)
         webView.load(request)
@@ -54,5 +52,5 @@ struct WebView: UIViewRepresentable {
 }
 
 #Preview {
-    WebViewSheet()
+    WebViewSheet(url: KindleEndpoint.login.url)
 }

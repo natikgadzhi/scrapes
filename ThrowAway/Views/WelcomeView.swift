@@ -13,7 +13,7 @@ struct WelcomeView: View {
     
     var body: some View {
         VStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 20) {
                 Spacer()
 
                 HStack {
@@ -22,23 +22,19 @@ struct WelcomeView: View {
                         .padding(.trailing)
                     Spacer()
                 }
-                .padding(.bottom, 20)
                 
                 VStack(alignment: .leading) {
                     Text("Welcome to Scrapes")
-                        .lineLimit(1)
                         .font(.title)
                         .bold()
                         .padding(.bottom, 4)
                     
                     Text("Scrapes is a small app that helps you grab your highlights, notes, bookmarks, and ideas from Kindle books.")
                         .lineLimit(5)
-                        .padding(.bottom)
                 }
-                .padding(.bottom)
                 
                 Spacer()
-            
+                
                 Button(action: {
                     isShowingAuth = true
                 }, label: {
@@ -48,10 +44,9 @@ struct WelcomeView: View {
                         .frame(height: 40)
                 })
                 .buttonStyle(.borderedProminent)
-                .padding(.bottom)
                 .frame(maxWidth: .infinity)
                 
-                
+                // That VStack just aligns the text to leading. Perhaps there's a better way to do this.
                 VStack(alignment: .leading) {
                     Text("""
                         Scrapes does not store your credentials or cookies anywhere.It _doesn't have a backend server_ whatsoever, and works on device. And, it's fully open-source.
@@ -59,13 +54,13 @@ struct WelcomeView: View {
                         .font(.caption)
                         .lineLimit(6)
                         .foregroundColor(.secondary)
-                        .padding(.bottom)
                 }
             }
+            .frame(maxWidth: 400)
             .padding()
         }
         .sheet(isPresented: $isShowingAuth) {
-            WebViewSheet()
+            WebViewSheet(url: KindleEndpoint.login.url)
         }
     }
 }
