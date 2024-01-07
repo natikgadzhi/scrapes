@@ -33,11 +33,11 @@ struct ContentView: View {
                 ErrorView(error: error)
             }
         }
-#if targetEnvironment(macCatalyst)
-        .sheet(isPresented: $viewModel.unauthenticated, content: {
-            WelcomeView()
-        })
-#endif
+//#if targetEnvironment(macCatalyst)
+//        .sheet(isPresented: $viewModel.unauthenticated, content: {
+//            WelcomeView()
+//        })
+//#endif
     }
 }
 

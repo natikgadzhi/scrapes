@@ -13,28 +13,11 @@ struct IconExportView: View {
     
     var body: some View {
         VStack {
-            
-            iconView()
+            IconView(size: 200)
                 .padding()
             
             Button("Save Icon") {
-                print("Saving!")
-                
-                if let image = self.snapshot(of: iconView()) {
-                    if let imageData = image.pngData() {
-                        let pictures = FileManager.default.urls(for: .picturesDirectory, in: .userDomainMask).first!
-                        let fileName = "icon-from-swiftUI.png"
-                        let fileURL = pictures.appendingPathComponent(fileName)
-                        
-                        do {
-                            try imageData.write(to: fileURL)
-                        } catch {
-                            print("Could not save the view into a PNG: \(error.localizedDescription)")
-                        }
-                    } else {
-                        print("Could not save the view into a PNG")
-                    }
-                }
+                self.exportImage()
             }
             .buttonStyle(.borderedProminent)
         }
@@ -46,16 +29,36 @@ struct IconExportView: View {
     }
     
     /// Grab a snapshot of a target view as a ``UIImage``.
-    @MainActor func snapshot(of view: any View) -> UIImage? {
-        let controller = UIHostingController(rootView: self)
+    @MainActor func snapshot(of target: some View) -> UIImage? {
+        let controller = UIHostingController(rootView: target)
         let view = controller.view
         let targetSize = controller.view.intrinsicContentSize
         view?.bounds = CGRect(origin: .zero, size: targetSize)
         view?.backgroundColor = .clear
 
-        let renderer = ImageRenderer(content: self)
+        let renderer = ImageRenderer(content: target)
         renderer.scale = UIScreen.main.scale // Adjust the scale for higher resolution
         return renderer.uiImage
+    }
+    
+    @MainActor func exportImage() {
+        print("Saving!")
+        
+        if let image = self.snapshot(of: iconView()) {
+            if let imageData = image.pngData() {
+                let pictures = FileManager.default.urls(for: .picturesDirectory, in: .userDomainMask).first!
+                let fileName = "icon-from-swiftUI.png"
+                let fileURL = pictures.appendingPathComponent(fileName)
+                
+                do {
+                    try imageData.write(to: fileURL)
+                } catch {
+                    print("Could not save the view into a PNG: \(error.localizedDescription)")
+                }
+            } else {
+                print("Could not save the view into a PNG")
+            }
+        }
     }
 }
 
