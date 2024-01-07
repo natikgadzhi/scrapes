@@ -34,7 +34,7 @@ struct WelcomeView: View {
                 }
                 
                 Spacer()
-                
+
                 Button(action: {
                     isShowingAuth = true
                 }, label: {
