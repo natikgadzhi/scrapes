@@ -10,6 +10,8 @@ import SwiftData
 
 @Observable class ViewModel {
     
+    /// Whether the client is currently authenticated to fetch data from Kindle API.
+    /// Starts as `false`, but can be changed with `onSuccessfulAuth`.
     var unauthenticated: Bool   = true
     var isLoading: Bool         = false
     var recentError: Error?     = nil

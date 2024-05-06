@@ -16,4 +16,12 @@ extension ProcessInfo {
     static var isTest: Bool {
         return ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
     }
+    
+    static var isRecordingSession: Bool {
+        return ProcessInfo.processInfo.environment["RECORD_URL_SESSION"] == "1"
+    }
+    
+    static var isReplayingSession: Bool {
+        return ProcessInfo.processInfo.environment["REPLAY_URL_SESSION"] == "1"
+    }
 }

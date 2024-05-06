@@ -17,11 +17,9 @@ struct KindleEndpoint {
         return URL(string: urlString)!
     }
     
-    static var login = KindleEndpoint(urlString: "https://www.amazon.com/ap/signin?openid.pape.max_auth_age=1209600&openid.return_to=https%3A%2F%2Fread.amazon.com%2Fkindle-library&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=amzn_kindle_mykindle_us&openid.mode=checkid_setup&language=en_US&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&pageId=amzn_kindle_mykindle_us&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0")
-    
-    static var books = KindleEndpoint(urlString: "https://read.amazon.com/notebook?ref_=kcr_notebook_lib&language=en-US")
-    
-    static var library = KindleEndpoint(urlString: "https://read.amazon.com/kindle-library")
+    static var login    = KindleEndpoint(urlString: "https://www.amazon.com/ap/signin?openid.pape.max_auth_age=1209600&openid.return_to=https%3A%2F%2Fread.amazon.com%2Fkindle-library&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=amzn_kindle_mykindle_us&openid.mode=checkid_setup&language=en_US&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&pageId=amzn_kindle_mykindle_us&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0")
+    static var books    = KindleEndpoint(urlString: "https://read.amazon.com/notebook?ref_=kcr_notebook_lib&language=en-US")
+    static var library  = KindleEndpoint(urlString: "https://read.amazon.com/kindle-library")
     
     static func highlights(asin: String, cursor: String = "") -> KindleEndpoint {
         return KindleEndpoint(urlString: "https://read.amazon.com/notebook?asin=\(asin)&contentLimitState=\(cursor)&")
@@ -41,26 +39,14 @@ class KindleAPI: NSObject {
     /// They're saved from the authentication web view when it successfully authenticates.
     private var cookies = [HTTPCookie]()
     
-    // URLSessionWrapper has an actual URLSession in it,
-    // but wraps it in a conditional to allow for test network request stubs.
-    private var urlSession = URLSessionWrapper()
+    private var urlSession = URLSession.shared
     
     // Upstream View Model
     var delegate: ViewModel? = nil
     
     func getBooks() async throws -> [Book] {
-        let request = try self.makeRequest(url: KindleEndpoint.books.url)
+        let responseBody = try await self.fetch(url: KindleEndpoint.books.url)
         
-        let (data, _) = try await self.urlSession.data(for: request)
-        
-        let responseBody = String(data: data, encoding: .utf8)
-        guard let responseBody = responseBody else {
-            throw KindleError.badHTTPResponse
-        }
-        
-        // Parsing.
-        // Perhaps we can extract this into a helper,
-        // depending on what Highlights parsing is going to look like.
         let page = try SwiftSoup.parse(responseBody)
         
         let booksMarkup = try page.select(".kp-notebook-library-each-book")
@@ -75,22 +61,15 @@ class KindleAPI: NSObject {
     
     func getHighlights(for book: Book) async throws -> [Highlight] {
         let url = KindleEndpoint.highlights(asin: book.id).url
-        let request = try self.makeRequest(url: url)
-        let (data, _) = try await self.urlSession.data(for: request)
-
-        let responseBody = String(data: data, encoding: .utf8)
-        guard let responseBody = responseBody else {
-            throw KindleError.badHTTPResponse
-        }
-
+        let responseBody = try await self.fetch(url: url)
         let page = try SwiftSoup.parse(responseBody)
+        
         let allAnnotations = try page.select("#kp-notebook-annotations > div:not(:last-child)")
 
         let highlights = try allAnnotations.map { try Highlight(for: book, from: $0) }
 
         return highlights
     }
-    
     
     /// Makes a new `URLRequest` and sets the headers into it
     private func makeRequest(url: URL) throws -> URLRequest {
@@ -107,6 +86,19 @@ class KindleAPI: NSObject {
         return request
     }
     
+    /// Perform a request to a URL, and return the response as `String`
+    private func fetch(url: URL) async throws -> String {
+        let request = try self.makeRequest(url: url)
+        
+        let (data, _) = try await self.urlSession.data(for: request)
+        
+        let responseBody = String(data: data, encoding: .utf8)
+        guard let responseBody = responseBody else {
+            throw KindleError.badHTTPResponse
+        }
+        
+        return responseBody
+    }
 }
 
 extension KindleAPI: WKNavigationDelegate {
