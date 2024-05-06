@@ -18,13 +18,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             if viewModel.unauthenticated {
-                // On a Mac, welcome screen goes into an overlay.
-                // On iOS, just use the whole screen.
-#if targetEnvironment(macCatalyst)
-                EmptyView()
-#else
                 WelcomeView()
-#endif
             } else {
                 BooksListView(viewModel: viewModel)
             }
@@ -33,11 +27,6 @@ struct ContentView: View {
                 ErrorView(error: error)
             }
         }
-//#if targetEnvironment(macCatalyst)
-//        .sheet(isPresented: $viewModel.unauthenticated, content: {
-//            WelcomeView()
-//        })
-//#endif
     }
 }
 

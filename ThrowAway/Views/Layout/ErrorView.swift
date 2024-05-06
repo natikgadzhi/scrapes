@@ -33,10 +33,8 @@ struct ErrorView: View {
                         .lineLimit(2)
                         .padding(.trailing, 4)
                 }
-                .frame(width: .infinity, height: 60)
-                .padding(.horizontal)
+                .frame(height: 60)
                 .background(
-
                     // TODO: Replace with a decent color
                     Color
                         .red
