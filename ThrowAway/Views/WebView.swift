@@ -17,6 +17,7 @@ struct WebViewSheet: View {
     var body: some View {
         NavigationStack {
             WebView(url: url, navigationDelegate: KindleAPI.shared)
+                .ignoresSafeArea(.container)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Cancel") {
@@ -35,11 +36,7 @@ struct WebView: UIViewRepresentable {
     var navigationDelegate: WKNavigationDelegate?
     
     func makeUIView(context: Context) -> WKWebView  {
-        let prefs = WKPreferences()
-        let config = WKWebViewConfiguration()
-        config.preferences = prefs
-        
-        let webView = WKWebView(frame: .zero, configuration: config)
+        let webView = WKWebView()
         webView.navigationDelegate = navigationDelegate
         
         return webView
