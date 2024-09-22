@@ -65,60 +65,62 @@ import SwiftSoup
 /// Highlight is a single highlight block in a book.
 @Model class Highlight {
 
-    // QTIzRkhUSFVLRTgwRFc6QjAwNFczRk00QTo1NTQyOkhJR0hMSUdIVDphMzFmMWNiODMtMTlmNC00MzMxLWE0MTAtYzIzYTM3YzFjYTg0
-    @Attribute(.unique) var id: String
+  // QTIzRkhUSFVLRTgwRFc6QjAwNFczRk00QTo1NTQyOkhJR0hMSUdIVDphMzFmMWNiODMtMTlmNC00MzMxLWE0MTAtYzIzYTM3YzFjYTg0
+  @Attribute(.unique) var id: String
 
-    // Highlight or Note
-    var type: String
+  // Highlight or Note
+  var type: String
 
-    // Highlight text
-    var text: String
-    
-    // Position in the book
-    var position: Int
+  // Highlight text
+  var text: String
 
-    // Page number in the book
-    var page: Int
+  // Position in the book
+  var position: Int
 
-    // kp-highlight-yellow, etc
-    var color: String
-    
-    var book: Book?
-    
-    public init(book: Book, id: String, type: String, text: String, position: Int, page: Int, color: String) {
-        self.book = book
-        self.id = id
-        self.type = type
-        self.text = text
-        self.position = position
-        self.page = page
-        self.color = color
+  // Page number in the book
+  var page: Int
+
+  // kp-highlight-yellow, etc
+  var color: String
+
+  var book: Book?
+
+  public init(
+    book: Book, id: String, type: String, text: String, position: Int, page: Int, color: String
+  ) {
+    self.book = book
+    self.id = id
+    self.type = type
+    self.text = text
+    self.position = position
+    self.page = page
+    self.color = color
+  }
+
+  public init(id: String, type: String, text: String, position: Int, page: Int, color: String) {
+    self.id = id
+    self.type = type
+    self.text = text
+    self.position = position
+    self.page = page
+    self.color = color
+  }
+
+  public init(for book: Book, from markup: SwiftSoup.Element) throws {
+    self.book = book
+    self.id = markup.id()
+
+    let text = try markup.select("#highlight").first()?.text()
+    guard let text = text else {
+      throw KindleError.errorParsingBooks
     }
-    
-    public init(id: String, type: String, text: String, position: Int, page: Int, color: String) {
-        self.id = id
-        self.type = type
-        self.text = text
-        self.position = position
-        self.page = page
-        self.color = color
-    }
+    self.text = text
 
-    public init(for book: Book, from markup: SwiftSoup.Element ) throws {
-        self.book = book
-        self.id = markup.id()
-
-        let text = try markup.select("#highlight").first()?.text()
-        guard let text = text else {
-            throw KindleError.errorParsingBooks
-        }
-        self.text = text
-        
-        // FIXME
-        self.type = "Highlight"
-        self.position = 0
-        self.page = 0
-        self.color = "Yellow"
-    }
+    // FIXME
+    self.type = "Highlight"
+    self.position = 0
+    self.page = 0
+    self.color = "Yellow"
+  }
 
 }

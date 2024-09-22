@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import WebKit
+@preconcurrency import WebKit
 import SwiftSoup
 
 /// KindleEndpoint represents API endpoints and auth site that are used to grab the data for books and highlights.
