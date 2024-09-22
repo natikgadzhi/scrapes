@@ -19,18 +19,25 @@ import SwiftSoup
     var author: String
     var modifiedAt: Date
     
+    var coverImageURL: URL?
+    
     @Relationship(deleteRule: .cascade, inverse: \Highlight.book) var highlights: [Highlight]
     
-    public init(id: String, title: String, author: String, modifiedAt: Date, highlights: [Highlight] = [Highlight]()) {
+    public init(id: String, title: String, author: String, modifiedAt: Date, coverImageURL: URL? = nil, highlights: [Highlight] = [Highlight]()) {
         self.id = id
         self.title = title
         self.author = author
         self.modifiedAt = modifiedAt
+        self.coverImageURL = coverImageURL
         self.highlights = highlights
     }
     
     /// Make a new `Book` from a `SwiftSoup.Element` and return it.
     public init(from markup: SwiftSoup.Element) throws {
+        
+        print("Book Markup")
+        print(markup)
+        
         let id = markup.id()
         self.id = id
     
@@ -56,6 +63,15 @@ import SwiftSoup
             throw KindleError.errorParsingBooks
         }
         self.modifiedAt = modifiedAt
+        
+        // Parse cover URL
+        if let imgElement = try markup.select("img.kp-notebook-cover-image").first() {
+            let coverURLString = try imgElement.attr("src")
+            if let coverImageURL = URL(string: coverURLString) {
+                self.coverImageURL = coverImageURL
+            }
+        }
+        
         self.highlights = [Highlight]()
     }
 }

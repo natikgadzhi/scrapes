@@ -29,9 +29,9 @@ class MockData {
     
     static let books: [Book] = {
         [
-            Book(id: "1", title: "All Tomorrow's Parties", author: "William Gibson", modifiedAt: Date()),
-            Book(id: "2", title: "Idoru", author: "William Gibson", modifiedAt: Date.distantPast),
-            Book(id: "3", title: "Virtual Light", author: "William Gibson", modifiedAt: Date.distantPast)
+            Book(id: "1", title: "All Tomorrow's Parties", author: "William Gibson", modifiedAt: Date(), coverImageURL: URL(string: "https://m.media-amazon.com/images/I/81Dd92++GgS._SY160.jpg")),
+            Book(id: "2", title: "Idoru", author: "William Gibson", modifiedAt: Date.distantPast, coverImageURL: URL(string: "https://m.media-amazon.com/images/I/81Dd92++GgS._SY160.jpg")),
+            Book(id: "3", title: "Virtual Light", author: "William Gibson", modifiedAt: Date.distantPast, coverImageURL: URL(string: "https://m.media-amazon.com/images/I/81Dd92++GgS._SY160.jpg")),
         ]
     }()
 }

@@ -51,8 +51,9 @@ struct BooksListView: View {
                     List(filteredBooks(), id: \.self, selection: $selection) { book in
                         BookListItemView(book: book)
                     }
-                    .listStyle(.sidebar)
+                    .listStyle(.plain)
                     .searchable(text: $searchText)
+                    .navigationTitle("Books")
                 }
             }
         } detail: {
@@ -68,6 +69,7 @@ struct BooksListView: View {
             }
         }
         .task(fetchBooks)
+        
     }
 }
 
