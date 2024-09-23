@@ -36,9 +36,15 @@ struct BookDetailsView: View {
 
                     List {
                         ForEach(book.highlights) { highlight in
-                            Text(highlight.text)
-                                .padding(.bottom, 10)
-                                .listRowSeparator(.hidden)
+                            VStack {
+                                Text(highlight.text)
+                                    .padding(.bottom, 10)
+                                    .listRowSeparator(.hidden)
+                                Text(highlight.color)
+                                Text("\(highlight.page)")
+                                Text("\(highlight.position)")
+                            }
+                            
                         }
                     }
                     .listStyle(.plain)
