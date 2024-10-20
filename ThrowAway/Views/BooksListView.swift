@@ -11,7 +11,7 @@ import SwiftData
 struct BooksListView: View {
     
     @Environment(\.modelContext) var modelContext
-    var viewModel: ViewModel
+    @Environment(ViewModel.self) var viewModel
     
     @Query var books: [Book]
     
@@ -59,26 +59,23 @@ struct BooksListView: View {
             } else {
                 if let book = selection {
                     BookDetailsView(book: book)
-                } else {
-                    Text("Select a book")
-                        .foregroundStyle(.secondary)
                 }
             }
         }
         .task(fetchBooks)
-        
     }
 }
 
 #Preview {
-    return BooksListView(viewModel: ViewModel())
+    let vm = ViewModel()
+    return BooksListView()
+        .environment(vm)
         .modelContainer(MockData.previewContainer)
 }
 
 #Preview {
-    
     let vm = ViewModel()
     vm.isLoading = true
-    
-    return BooksListView(viewModel: vm)
+    return BooksListView()
+        .environment(vm)
 }

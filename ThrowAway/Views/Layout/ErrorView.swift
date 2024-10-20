@@ -25,19 +25,21 @@ struct ErrorView: View {
         VStack {
             withAnimation {
                 HStack {
-                    Image(systemName: "exclamationmark.octagon")
-                        .padding(.leading, 4)
+                    Image(systemName: "exclamationmark.octagon.fill")
+                        .padding(.leading, 6)
 
                     Text(errorDescription)
                         .foregroundColor(.black)
                         .lineLimit(2)
-                        .padding(.trailing, 4)
+                        .padding(.trailing, 6)
                 }
+                
                 .frame(height: 60)
                 .background(
                     // TODO: Replace with a decent color
                     Color
-                        .red
+                        .pink
+                        .opacity(0.8)
                         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 )
             }

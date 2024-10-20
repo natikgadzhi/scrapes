@@ -9,7 +9,10 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct HighlightRowView: View {
+    
     let highlight: Highlight
+    
+    @Environment(ViewModel.self) var viewModel
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -37,6 +40,6 @@ struct HighlightRowView: View {
 
 #Preview {
     NavigationStack {
-        HighlightRowView(highlight: MockData.bookWithHighlights.highlights.first!)
+        //HighlightRowView(highlight: MockData.bookWithHighlights.highlights.first!)
     }
 }

@@ -13,14 +13,14 @@ import SwiftData
 /// model between authenticated and non-authenticated state.
 struct ContentView: View {
     
-    @State var viewModel = ViewModel()
+    @Environment(ViewModel.self) var viewModel
     
     var body: some View {
         ZStack {
             if viewModel.unauthenticated {
                 WelcomeView()
             } else {
-                BooksListView(viewModel: viewModel)
+                BooksListView()
             }
 
             if let error = viewModel.recentError {

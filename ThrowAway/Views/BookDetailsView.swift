@@ -89,7 +89,7 @@ struct BookDetailsView: View {
 
 #Preview {
     NavigationStack {
-        BookDetailsView(book: MockData.bookWithHighlights)
+        //BookDetailsView(book: MockData.bookWithHighlights)
     }
 }
 
