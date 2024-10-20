@@ -12,7 +12,9 @@ import UniformTypeIdentifiers
 
 struct BookDetailsView: View {
     @Environment(\.modelContext) var modelContext
+    
     var book: Book
+    
     @State private var isLoading = false
     @State private var copiedHighlightId: String? = nil
 
@@ -34,7 +36,7 @@ struct BookDetailsView: View {
 
                     List {
                         ForEach(book.highlights) { highlight in
-                            HighlightRow(highlight: highlight, copiedHighlightId: $copiedHighlightId)
+                            HighlightRowView(highlight: highlight)
                         }
                     }
                     .listStyle(.plain)
@@ -48,13 +50,30 @@ struct BookDetailsView: View {
         }
         .task(id: book) {
             self.isLoading = true
+            defer {
+                self.isLoading = false
+            }
+            
             do {
-                book.highlights = try await KindleAPI.shared.getHighlights(for: book)
+                let highlights = try await KindleAPI.shared.getHighlights(for: book)
+                
+                for highlight in highlights {
+                    if book.highlights.contains(where: { $0.id == highlight.id }) {
+                        
+                        // This skips updating highlights that already exists
+                        // TODO: We should update existing highlights when they are re-fetched. One way to
+                        //       do that would be to remove them and re-insert.
+                        print("Skipping updating a highlight \(highlight.id) as it already exists")
+                        continue
+                    } else {
+                        book.highlights.append(highlight)
+                    }
+                }
+                
                 try modelContext.save()
             } catch {
                 print(error)
             }
-            self.isLoading = false
         }
         .navigationTitle(book.title)
     }
@@ -66,42 +85,11 @@ struct BookDetailsView: View {
     }
 }
 
-struct HighlightRow: View {
-    let highlight: Highlight
-    @Binding var copiedHighlightId: String?
 
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(highlight.highlightText)
-                .font(.system(size: 16, weight: .regular, design: .serif ))
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(self.highlight.color.color)
-                        .stroke(self.highlight.color.color, lineWidth: 1)
-                )
-            Text("Page: \(highlight.page), Position: \(highlight.position)")
-                .font(.caption)
-            
-            Button("Copy") {
-                UIPasteboard.general.setValue(highlight.highlightText, forPasteboardType: UTType.plainText.identifier)
-                copiedHighlightId = highlight.id
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    if copiedHighlightId == highlight.id {
-                        copiedHighlightId = nil
-                    }
-                }
-            }
-            .buttonStyle(.bordered)
-            .padding(.top, 4)
 
-            if copiedHighlightId == highlight.id {
-                Text("Copied!")
-                    .font(.caption)
-                    .foregroundColor(.green)
-            }
-        }
-        .padding(.vertical, 8)
+#Preview {
+    NavigationStack {
+        BookDetailsView(book: MockData.bookWithHighlights)
     }
 }
 

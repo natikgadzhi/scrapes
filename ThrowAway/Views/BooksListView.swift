@@ -21,10 +21,7 @@ struct BooksListView: View {
     /// A helper function to filter out the list of books for the sidebar search results.
     private func filteredBooks() -> [Book] {
         return self.books
-        // Only show the ones that are filtered out by the search in the sidebar
             .filter { $0.title.lowercased().contains(self.searchText.lowercased()) || self.searchText.isEmpty }
-        // And then sort them by modified at, descending.
-        // TODO: Move sorting to query predicate
             .sorted { $0.modifiedAt > $1.modifiedAt }
     }
     
