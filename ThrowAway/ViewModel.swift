@@ -8,12 +8,16 @@
 import SwiftUI
 import SwiftData
 
-@Observable class ViewModel {
+@Observable @MainActor class ViewModel {
     
     /// Whether the client is currently authenticated to fetch data from Kindle API.
     /// Starts as `false`, but can be changed with `onSuccessfulAuth`.
     var unauthenticated: Bool   = true
+    
+    /// Should the loading view be presented instead of the content on the current screen?
     var isLoading: Bool         = false
+    
+    /// The most recent error that happened anywhere in the app. Setting this would show the error notification toast.
     var recentError: Error?     = nil
     
     // TODO: This might be a problem if we'll init two VMs in some code
@@ -21,23 +25,21 @@ import SwiftData
         KindleAPI.shared.delegate = self
     }
     
-    // KindleAPI calls the delegate and sets the authentication flag.
+    /// Toggle `unauthenticated` to be false on successful authentication.
+    /// This method is triggered in KindleAPI delegate from the webView.
     func onSuccessfulAuth() {
-        DispatchQueue.main.async {
-            self.unauthenticated = false
-        }
+        self.unauthenticated = false
     }
     
-    // FIXME: Clearly I'm doing threading wrong.
+    /// Run the provided function, wrapped in `isLoading` indicator so the views can show the loading view.
     func withLoading(perform: @escaping (() async throws -> Void)) async {
-        DispatchQueue.main.async { self.isLoading = true }
+        self.isLoading = true
+        defer { self.isLoading = false }
+        
         do {
             try await perform()
         } catch {
-            DispatchQueue.main.async {
-                self.recentError = error
-            }
+            self.recentError = error
         }
-        DispatchQueue.main.async { self.isLoading = false }
     }
 }

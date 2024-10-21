@@ -11,13 +11,13 @@ import SwiftData
 import UniformTypeIdentifiers
 
 struct BookDetailsView: View {
+    
     @Environment(\.modelContext) var modelContext
+    @Environment(ViewModel.self) var viewModel
+    @State private var isLoading = false
     
     var book: Book
     
-    @State private var isLoading = false
-    @State private var copiedHighlightId: String? = nil
-
     var body: some View {
         ZStack {
             if !book.highlights.isEmpty {
@@ -33,7 +33,7 @@ struct BookDetailsView: View {
                         .padding(.horizontal)
                         .buttonStyle(.borderedProminent)
                     }
-
+                    
                     List {
                         ForEach(book.highlights) { highlight in
                             HighlightRowView(highlight: highlight)
@@ -43,41 +43,37 @@ struct BookDetailsView: View {
                 }
                 .padding()
             }
-
+            
             if isLoading {
                 LoadingView()
             }
         }
+        .navigationTitle(book.title)
         .task(id: book) {
-            self.isLoading = true
-            defer {
-                self.isLoading = false
-            }
+            isLoading = true
+            defer { isLoading = false }
             
             do {
                 let highlights = try await KindleAPI.shared.getHighlights(for: book)
                 
-                for highlight in highlights {
-                    if book.highlights.contains(where: { $0.id == highlight.id }) {
-                        
-                        // This skips updating highlights that already exists
-                        // TODO: We should update existing highlights when they are re-fetched. One way to
-                        //       do that would be to remove them and re-insert.
-                        print("Skipping updating a highlight \(highlight.id) as it already exists")
-                        continue
-                    } else {
-                        book.highlights.append(highlight)
+                await MainActor.run {
+                    for highlight in highlights {
+                        if book.highlights.contains(where: { $0.id == highlight.id }) {
+                            print("Skipping updating a highlight \(highlight.id) as it already exists")
+                            continue
+                        } else {
+                            book.highlights.append(highlight)
+                        }
                     }
                 }
                 
                 try modelContext.save()
             } catch {
-                print(error)
+                viewModel.recentError = error
             }
         }
-        .navigationTitle(book.title)
     }
-
+    
     private func copyAllHighlights() {
         let markdownHighlights = book.highlights.map { "- \($0.highlightText) (Page: \($0.page))" }.joined(separator: "\n")
         UIPasteboard.general.setValue(markdownHighlights, forPasteboardType: UTType.plainText.identifier)
@@ -86,88 +82,9 @@ struct BookDetailsView: View {
 }
 
 
-
 #Preview {
     NavigationStack {
-        //BookDetailsView(book: MockData.bookWithHighlights)
+        BookDetailsView(book: MockData.books.first!)
+            .environment(ViewModel())
     }
 }
-
-
-//import SwiftUI
-//import SwiftData
-//
-//struct BookDetailsView: View {
-//    
-//    @Environment(\.modelContext) var modelContext
-//    
-//    var book: Book
-//    
-//    @State var isLoading = false
-//    
-//    var body: some View {
-//        ZStack {
-//            if !book.highlights.isEmpty {
-//                VStack(alignment: .leading) {
-//                    HStack {
-//                        Text("You have \(book.highlights.count) highlights")
-//
-//                        Spacer()
-//
-//                        Button(action: {
-//                            print("copy")
-//                        }, label: {
-//                            Label("Copy Everything", systemImage: "square.and.arrow.up.on.square")
-//                        })
-//                        .padding(.horizontal)
-//                        .buttonStyle(.borderedProminent)
-//                    }
-//
-//                    List {
-//                        ForEach(book.highlights) { highlight in
-//                            VStack {
-//                                Text(highlight.text)
-//                                    .padding(.bottom, 10)
-//                                    .listRowSeparator(.hidden)
-//                                Text(highlight.color)
-//                                Text("\(highlight.page)")
-//                                Text("\(highlight.position)")
-//                            }
-//                            
-//                        }
-//                    }
-//                    .listStyle(.plain)
-//                }
-//                .padding()
-//            }
-//            
-//            if isLoading {
-//                LoadingView()
-//            }
-//        }
-//        .task(id: book) {
-//            self.isLoading = true
-//            
-//            do {
-//                book.highlights = try await KindleAPI.shared.getHighlights(for: book)
-//            } catch {
-//                print(error)
-//            }
-//            
-//            do {
-//                try modelContext.save()
-//            } catch {
-//                print(error)
-//            }
-//            
-//            self.isLoading = false
-//        }
-//        .navigationTitle(book.title)
-//    }
-//}
-//
-//#Preview {
-//    NavigationStack {
-//        BookDetailsView(book: MockData.books[1])
-//    }
-//}
